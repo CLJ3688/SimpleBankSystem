@@ -1,6 +1,8 @@
 package com.finance.bank;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 銀行帳戶類別
@@ -8,11 +10,14 @@ import java.math.RoundingMode;
  */
 public class Account {
 	private String accountNumber;
-	
 	/**
 	 * 使用BigDecimal以避免金融運算中的浮點數精度誤差
 	 */
 	private BigDecimal balance;
+	
+	//新增：儲存交易紀錄清單
+	private List<Transaction> transactions = new ArrayList<>();
+	
 	
 	public BigDecimal getBalance() {
 		return balance;
@@ -52,6 +57,9 @@ public class Account {
 		
 		//採四捨五入，確保金額維持小數點後兩位
 		this.balance = this.balance.setScale(2, RoundingMode.HALF_UP);
+		
+		//新增：紀錄提款
+		transactions.add(new Transaction("提款", amount, "帳戶支出"));
 	}
 	
 	/**
@@ -73,6 +81,21 @@ public class Account {
 		
 		//採四捨五入，確保金額維持小數點後兩位
 		this.balance = this.balance.setScale(2, RoundingMode.HALF_UP);
+		
+		//新增：紀錄存款
+		transactions.add(new Transaction("存款", amount, "帳戶存入"));
 	}
-
+	
+	/**
+	 * 新增功能
+	 * 列印明細
+	 */
+	
+	public void printHistory(){
+		System.out.println("\n====== " + accountNumber + " 歷史交易明細 ======");
+		for(Transaction t : transactions) {
+			System.out.println(t);
+		}
+		System.out.println("==========================================");
+	}
 }

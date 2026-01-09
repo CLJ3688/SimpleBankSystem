@@ -16,6 +16,8 @@ public class Main {
 		//2. 測試正常轉帳
 		try {
 			bankService.transfer(userA, userB, new BigDecimal("200.50"));
+			bankService.transfer(userB, userA, new BigDecimal("100.00"));
+			bankService.transfer(userA, userB, new BigDecimal("50.00"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -30,6 +32,8 @@ public class Main {
 		
 		System.out.println("交易後A餘額為：" + userA.getBalance());
 		System.out.println("交易後B餘額為：" + userB.getBalance());
+		
+		userA.printHistory();
 	}
 
 }
