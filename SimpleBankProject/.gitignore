@@ -1,1 +1,7 @@
 /bin/
+/target/
+*.mv.db
+*.trace.db
+.settings/
+.classpath
+.project
