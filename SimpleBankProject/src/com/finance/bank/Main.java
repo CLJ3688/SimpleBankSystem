@@ -7,20 +7,29 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// --- 1 : 環境初始化 ---
-		// 程式啟動時，確保資料庫表格已建立
 		DatabaseManager.initializeDatabase();
-		
 		AccountDao dao = new AccountDao();
 		BankService bankService = new BankService();
 		
-		// --- 2 : 準備測試數據 ---
-		Account userA = new Account("userA_001", "1000.0");
-		Account userB = new Account("userB_001", "500.0");
+		// --- 2-a : UserA，資料庫中搜尋紀錄，若無則新增 ---
+		Account userA = dao.getAccount("userA_001");
+		if(userA == null) {
+			userA = new Account("userA_001","1000.0");
+			dao.saveAccount(userA);
+			System.out.println("[系統] 首次執行：已為 userA 建立初始帳戶（1000.0）");
+		} else {
+			System.out.println("[系統] 歡迎回來！userA 目前餘額為：" + userA.getBalance());
+		}
 		
-		System.out.println("[初始狀態]");
-		System.out.println("A餘額：" + userA.getBalance());
-		System.out.println("B餘額：" + userB.getBalance());
-		System.out.println("------------");
+		// --- 2-b : UserB，資料庫中搜尋紀錄，若無則新增 ---
+		Account userB = dao.getAccount("userB_001");
+		if(userB == null) {
+			userB = new Account("userB_001","500.0");
+			dao.saveAccount(userB);
+			System.out.println("[系統] 首次執行：已為 userB 建立初始帳戶（500.0）");
+		} else {
+			System.out.println("[系統] 歡迎回來！userB 目前餘額為：" + userB.getBalance());
+		}
 		
 		// --- 3 : 執行正常轉帳及例外處理 ---
 		try {
