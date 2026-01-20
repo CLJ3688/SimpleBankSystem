@@ -1,6 +1,11 @@
 package com.finance.bank;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 public class Main {
 
@@ -64,6 +69,18 @@ public class Main {
 			System.out.println("資料庫中A的最新餘額：" + dbA.getBalance());
 			System.out.println("資料庫中B的最新餘額：" + dbB.getBalance());
 		}
+		
+		System.out.println("\n============= 從資料庫讀取交易明細 =============");
+		System.out.println("             銀行交易對帳單(userA_001)         ");
+		System.out.println("=============================================");
+		
+		List<Transaction> txs = dao.getTransactions("userA_001");
+		txs.forEach(tx -> {
+			System.out.println(tx.toString());
+		});
+		
+		System.out.println("=============================================");
+		System.out.println("列印完畢，共" + txs.size() + " 筆資料");
 		
 		userA.printHistory();
 	}

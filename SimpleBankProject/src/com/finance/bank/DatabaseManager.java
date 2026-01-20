@@ -15,17 +15,28 @@ public class DatabaseManager {
 	}
 
 	public static void initializeDatabase() {
-		String sql = "CREATE TABLE IF NOT EXISTS accounts (" +
-					"id VARCHAR(20) PRIMARY KEY, " +
-					"balance DECIMAL(20,2))";
-		
+		 
 		/**
 		 * 建立accounts表格
 		 */
+		String sqlAccounts = "CREATE TABLE IF NOT EXISTS accounts (" +
+					"id VARCHAR(20) PRIMARY KEY, " +
+					"balance DECIMAL(20,2))";
+		String sqlTransactions = "CREATE TABLE IF NOT EXISTS transactions (" +
+								"id INT AUTO_INCREMENT PRIMARY KEY, " +
+								"account_id VARCHAR(20), " +
+								"type VARCHAR(10), "+
+								"amount DECIMAL(20,2), " +
+								"description VARCHAR(100), "+
+								"transaction_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
+		
 		try (Connection conn = getConnection();
 			Statement stmt = conn.createStatement()) {
-			stmt.execute(sql);
-			System.out.println("[DB] 初始化成功：accounts 表格已就緒");
+			// stmt.execute("DROP TABLE IF EXISTS transactions");
+			// stmt.execute("DROP TABLE IF EXISTS accounts");
+			stmt.execute(sqlAccounts);
+			stmt.execute(sqlTransactions);
+			System.out.println("[DB] 初始化成功：accounts,transactions 表格已就緒");
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}

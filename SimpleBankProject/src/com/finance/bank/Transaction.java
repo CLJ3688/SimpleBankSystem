@@ -20,9 +20,15 @@ public class Transaction {
 		this.amount = amount;
 		this.description = description;
 	}
+	//Getter
+	public LocalDateTime getTimeStamp() { return timeStamp; }
+	public String getType() { return type; }
+	public BigDecimal getAmount() { return amount; }
+	public String getDescription() { return description; }
 	
-	public BigDecimal getAmount() {
-		return amount;
+	//Setter
+	public void setTimestamp(LocalDateTime timeStamp) {
+		this.timeStamp = timeStamp;
 	}
 	
 	@Override

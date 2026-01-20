@@ -41,6 +41,10 @@ public class BankService {
 			accountDao.saveAccount(from);
 			accountDao.saveAccount(to);
 			
+			// --- STEP 6.儲存交易紀錄 ---
+			accountDao.saveTransaction(from.getAccountNumber(), new Transaction("[轉出]", amount, "轉帳給" + to.getAccountNumber()));
+			accountDao.saveTransaction(to.getAccountNumber(), new Transaction("[轉入]" , amount, "收到來自" + from.getAccountNumber() + "的轉帳"));
+			
 			System.out.println("--- 交易成功且已寫進資料庫 ---");
 			System.out.println("轉出帳號：" + from.getAccountNumber() + " | 餘額：" + from.getBalance());
 			System.out.println("轉入帳號：" + to.getAccountNumber() + " | 餘額：" + to.getBalance());
