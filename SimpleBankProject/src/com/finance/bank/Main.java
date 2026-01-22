@@ -38,18 +38,14 @@ public class Main {
 		
 		// --- 3 : 執行正常轉帳及例外處理 ---
 		try {
-			System.out.println("[執行轉帳] A 轉帳200.50 元給 B ...");
-			bankService.transfer(userA, userB, new BigDecimal("200.50"));
+			System.out.println("[執行轉帳] A 轉帳200.00 元給 B ...");
+			bankService.transfer(userA, userB, new BigDecimal("200.00"));
 			
-			System.out.println("[執行轉帳] B 轉帳100.00 元給 A ...");
-			bankService.transfer(userB, userA, new BigDecimal("100.00"));
+			System.out.println("[執行存款] A 存入500.00 元 ...");
+			bankService.deposit(userA, new BigDecimal("500.00"));
 			
-			System.out.println("[執行轉帳] A 轉帳50.00 元給 B ...");
-			bankService.transfer(userA, userB, new BigDecimal("50.00"));
-			
-			System.out.println("[執行轉帳] A 轉帳2000.00 元給 B ...");
-			System.out.println("---嘗試超額轉帳---");
-			bankService.transfer(userA, userB, new BigDecimal("2000.0"));
+			System.out.println("[執行提款] A 提領300.00 元 ...");
+			bankService.withdraw(userA, new BigDecimal("300.00"));
 			
 			System.out.println("[執行轉帳] A 轉帳50.00 元給 A ...");
 			System.out.println("---嘗試轉帳給自己---");
@@ -81,8 +77,6 @@ public class Main {
 		
 		System.out.println("=============================================");
 		System.out.println("列印完畢，共" + txs.size() + " 筆資料");
-		
-		userA.printHistory();
 	}
 
 }

@@ -59,4 +59,44 @@ public class BankService {
 		}
 	
 	}
+	
+	public void deposit(Account account, BigDecimal amount) throws Exception {
+		// --- STEP 1.檢查account參數正確性
+		if(account == null) {
+			throw new IllegalArgumentException("帳戶不能為空");
+		}
+		// --- STEP 2.執行存款
+		//在Account.deposit()內會檢查amount的正確性
+		account.deposit(amount);
+		
+		// --- STEP 3.更新後餘額存入資料庫
+		accountDao.saveAccount(account);
+		
+		// --- STEP 4.交易紀錄存入資料庫
+		Transaction tx = new Transaction("[存款]", amount, "櫃檯/ATM 存款");
+		accountDao.saveTransaction(account.getAccountNumber(), tx);
+		
+		System.out.println("--- 交易成功且已寫進資料庫 ---");
+		System.out.println("[Service] 存款成功且已存入資料庫");
+	}
+	
+	public void withdraw(Account account, BigDecimal amount) throws Exception{
+		// --- STEP 1.檢查account參數正確性
+		if(account == null) {
+			throw new IllegalArgumentException("帳戶不能為空"); 
+		}
+		// --- STEP 2.執行提款
+		// 在Account.withdraw()裡面會檢查是否可正確執行以及amount參數正確性
+		account.withdraw(amount);
+		
+		// --- STEP 3.更新後餘額存入資料庫
+		accountDao.saveAccount(account);
+		
+		// --- STEP 4.交易紀錄存入資料庫
+		Transaction tx = new Transaction("[提款]", amount, "櫃檯/ATM 提款");
+		accountDao.saveTransaction(account.getAccountNumber(), tx);
+		
+		System.out.println("--- 交易成功且已寫進資料庫 ---");
+		System.out.println("[Service] 提款成功且已存入資料庫");
+	}
 }
